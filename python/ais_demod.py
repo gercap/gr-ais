@@ -12,7 +12,7 @@
 
 from gnuradio import gr, filter, blocks
 from gnuradio import trellis
-from gnuradio.filter import window
+from gnuradio.filter import window, firdes
 from gnuradio import digital
 from gnuradio import analog
 import math
@@ -34,7 +34,9 @@ class ais_demod(gr.hier_block2):
         self.fftlen = options[ "fftlen" ]
         self.freq_sync = gmsk_sync.square_and_fft_sync_cc(self._samplerate, self._bits_per_sec, self.fftlen)
         self.preamble = [1,1,-1,-1]*7
-        self.preamble_detect = digital.msk_correlate_cc(self.preamble, 0.4, self._samples_per_symbol)
+        self.matched_filter = firdes.root_raised_cosine(32, 32, 1, 0.35, int(11*int(self._samples_per_symbol)*32))
+        self.preamble_detect = digital.correlate_and_sync_cc(self.preamble, self.matched_filter, int(self._samples_per_symbol))
+        
         self.wat = blocks.null_sink(gr.sizeof_gr_complex)
 #        self.tag_sink = blocks.tag_debug(gr.sizeof_gr_complex, "Butts")
         self.agc = analog.feedforward_agc_cc(512, 2)
