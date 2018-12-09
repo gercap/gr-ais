@@ -20,5 +20,6 @@ install(FILES
     ais_invert.xml
     ais_square_and_fft_sync_cc.xml
     ais_pdu_to_nmea.xml
+    ais_receive.xml
     DESTINATION share/gnuradio/grc/blocks
 )

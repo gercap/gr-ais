@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<block>
+  <name>AIS Receive</name>
+  <key>ais_receive</key>
+  <category>ais</category>
+  <import>import ais</import>
+  <make>ais.radio.ais_rx($freq, $rate, $designator)</make>
+
+  <param>
+    <name>Frequency</name>
+    <key>freq</key>
+    <value>0</value>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Rate</name>
+    <key>rate</key>
+    <value>250e3</value>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Designator</name>
+    <key>designator</key>
+    <value>"A"</value>
+    <type>string</type>
+  </param>
+
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+</block>
