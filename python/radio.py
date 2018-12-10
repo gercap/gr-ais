@@ -44,6 +44,9 @@ class ais_rx(gr.hier_block2):
                                 gr.io_signature(1,1,gr.sizeof_gr_complex),
                                 gr.io_signature(0,0,0))
 
+        #register message out to other blocks
+        self.message_port_register_hier_out("msgs")
+
         self._bits_per_sec = 9600.0
         self._samples_per_symbol = 5
         self.coeffs = filter.firdes.low_pass(1, rate, 11000, 1000)
@@ -70,7 +73,9 @@ class ais_rx(gr.hier_block2):
                      self.filter,
                      self.demod,
                      self.deframer)
-        self.msg_connect(self.deframer, "out", self.nmea, "print")
+        #self.msg_connect(self.deframer, "out", self.nmea, "print")
+        self.msg_connect(self.deframer, "out", self.nmea, "to_nmea")
+        self.msg_connect(self.nmea, "out", self, "msgs")
 
 class ais_radio (gr.top_block, pubsub):
   def __init__(self, options):

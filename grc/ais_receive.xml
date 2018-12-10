@@ -31,4 +31,11 @@
     <name>in</name>
     <type>complex</type>
   </sink>
+
+  <source>
+    <name>msgs</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+
 </block>
